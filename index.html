@@ -10,14 +10,21 @@
 
 </head>
 <body>
-    <div class = "container">
-      <div id = "header"> <h1>Trivia Game</h1></div>
+    <div class="container">
+      <div id="header"> <h1>Trivia Game</h1></div>
       
-      <div class = "game-container">
-        <div id = "time-left"></div>
-        <div id = "question-container"></div>
-          <div id = "question"></div>
-          <div id = "first-answer"></div>
+      <div class="game-container">
+        <button id="start-button">Start!</button>
+        <div id="time-left"></div>
+        <div id="question-container"></div>
+          <div id="question"></div>
+          <div id="answers"></div>
+          <div id="results">
+              <div id="correct"></div>
+              <div id="incorrect"></div>
+              <div id="unanswered"></div>
+              <button id="retry"></button>
+            </div>
 
       </div>
       
@@ -27,6 +34,7 @@
     </div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src = "assets/javascript/questions.js"> </script>  
 <script src = "assets/javascript/app.js"> </script>    
 </body>
 </html>

@@ -2,36 +2,34 @@
 //global variables including correct, incorrect, timePerQuestion, timeCount, 
 var correct = 0;
 var incorrect = 0;
-var timeCount = 3;
+var unanswered = 0;
+var timeCount = 15;
 var timer;
+var timesUp;
 var index = 0;
 $("#question").hide();
 $("#answers").hide();
 $("#results").hide();
-//start countdown function that clears interval, sets timeCount = timePerQuestion, calls decrement function, output to time-left div
-function startCountdown() {
-    timeCount = 3;
-    $("#time-left").html("Time Left: " + timeCount);
-    timer = setInterval(function(){
+
+//stop countdown function that clears interval
+function stopCountdown() {
+    clearInterval(timer);
+    unanswered++;
+    //add timer for below text to display for 3 sec before changeQuestion is called
+    
+    timer = setInterval(function() {
         timeCount --;
-        $("#time-left").html("Time Left: " + timeCount);
         if (timeCount === 0) {
-            stopCountdown();
+        //    timesUp = setInterval(function() {
+        //         $("#question-container").val("Time's Up! Get ready for the next question!");
+        //     }, 3000);
             changeQuestion();
-            incorrect ++;
-            console.log(index);
-            console.log(allQuestions.length);
             if (index  > allQuestions.length) {
                 clearInterval(timer);
                 endGame();
             }  
         }
     }, 1000);
-}
-//stop countdown function that clears interval
-function stopCountdown() {
-    clearInterval(timer);
-    //add alert or .html letting user know time is up
 }
 
 //reset function that resets all variables, "start screen"
@@ -47,7 +45,12 @@ function changeQuestion() {
     $("#answers").empty();
     $("#question").html(allQuestions[index].q);
     for (var i = 0; i < allQuestions[index].p.length; i++) {
-        $("#answers").append(allQuestions[index].p[i]);
+      $("#answers").append($("<div>")).text(allQuestions[index].p[i]);
+      console.log(allQuestions[index].p[i]);
+      //newAnswerDiv.attr("data-name", allQuestions[index].p[i]);
+      //newAnswerDiv.text(allQuestions[index].p[i]);
+      //$("#answers").append(newAnswerDiv);
+      //console.log(newAnswerDiv);
     }
     index++;
 
@@ -58,8 +61,30 @@ function endGame() {
     $("#question").empty();
     $("#answers").empty();
     $("#results").show();
-    $("#incorrect").html("Incorrect: " + incorrect);
-    $("#correct").html("Correct: " + correct);
+    $("#results").append($("<p>").text("Correct: " + correct));
+    $("#results").append($("<p>").text("Incorrect: " + incorrect));
+    $("#results").append($("<p>").text("Unanswered: " + unanswered));
+}
+
+//start countdown function that clears interval, sets timeCount = timePerQuestion, calls decrement function, output to time-left div
+function startCountdown() {
+    timeCount = 3;
+    $("#time-left").html("Time Left: " + timeCount);
+    timer = setInterval(function() {
+        timeCount --;
+        $("#time-left").html("Time Left: " + timeCount);
+        if (timeCount === 0) {
+            stopCountdown();
+            changeQuestion();
+            incorrect ++;
+            console.log(index);
+            console.log(allQuestions.length);
+            if (index  > allQuestions.length) {
+                clearInterval(timer);
+                endGame();
+            }  
+        }
+    }, 1000);
 }
 
 //on click of start button "start screen" gone & first question + timer displays instead
@@ -70,4 +95,16 @@ $("#start-button").on("click", function() {
     $("#answers").show();
 })
 //on click of answer, stores user input, calls changeQuestion function
+// $("#answers").on("click", function() {
+//     var userPick = value from selected answer;
 
+        //if (userPick === allQuestions[index].a) {
+          //correct++;
+          //$("#question-container").val("CORRECT!");
+        //}
+
+        //else if (userPick !== allQuestions[index].a) {
+            //incorrect++;
+            //$("#question-container").val("INCORRECT! The correct answer was: " + allQuestions[index].a);
+        //}
+// })

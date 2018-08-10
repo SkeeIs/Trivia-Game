@@ -1,5 +1,5 @@
 
-//global variables including correct, incorrect, timePerQuestion, timeCount, 
+//global variables
 var correct = 0;
 var incorrect = 0;
 var unanswered = 0;
@@ -10,7 +10,7 @@ $("#question").hide();
 $("#answers").hide();
 $("#results").hide();
 
-//reset function that resets all variables, "start screen"
+//reset function that resets all variables, brings back "start screen"
 function reset() {
   correct = 0;
   incorrect = 0;
@@ -18,7 +18,7 @@ function reset() {
   index = 0;
   $("#start-button").show();
 }
-//changeQuestion function that condition checks there are questions left in our object, changes html, calls start countdown
+//changeQuestion function that iterates through the answers within our questions objects within our allQuestions array & creates divs for the possible answers
 function changeQuestion() {
   startCountdown();
   $("#question").empty();
@@ -43,43 +43,40 @@ function endGame() {
   $("#time-left").hide();
   $("#question-container").empty();
   $("#results").show();
-  $("#results").html($("<p>").text("Correct: " + correct));
-  $("#results").append($("<p>").text("Incorrect: " + incorrect));
-  $("#results").append($("<p>").text("Unanswered: " + unanswered));
-    reset();
+  $("#results").html($("<div class=col justify-content-center>").text("Correct: " + correct));
+  $("#results").append($("<div class=col justify-content-center>").text("Incorrect: " + incorrect));
+  $("#results").append($("<div class=col justify-content-center>").text("Unanswered: " + unanswered));
+  reset();
 }
 
-//start countdown function that clears interval, sets timeCount = timePerQuestion, calls decrement function, output to time-left div
+//start countdown function sets our timeCount for each question & displays the countdown, also condition checks when the time runs out if we need to go to endgame (if all indexes have been iterated through) or increments the unanswered variable & calls on changeQuestion
 function startCountdown() {
-    timeCount = 15;
+  timeCount = 15;
+  $("#time-left").html("Time Left: " + timeCount);
+  timer = setInterval(function() {
+    timeCount --;
     $("#time-left").html("Time Left: " + timeCount);
-    timer = setInterval(function() {
-        timeCount --;
-        $("#time-left").html("Time Left: " + timeCount);
         
-        if (timeCount === 0) {
+    if (timeCount === 0) {
             
-            if (index  >= allQuestions.length - 1) {
-                console.log(index);
-                //clearInterval(timer);
-                endGame();
-            }  
+      if (index  >= allQuestions.length - 1) {
+        endGame();
+      }  
             
-            else {
-                clearInterval(timer);
-                unanswered++;
-                $("#question").empty();
-                $("#answers").empty();
-                $("#question-container").text("Time's Up! The correct answer was " + allQuestions[index].a);
-                index++;
-                setTimeout(function() {
-                    $("#question-container").empty();
-                    changeQuestion();
-                    
-                }, 3000);
-            }      
-        }
-    }, 1000);
+      else {
+        clearInterval(timer);
+        unanswered++;
+        $("#question").empty();
+        $("#answers").empty();
+        $("#question-container").text("Time's Up! The correct answer was: " + allQuestions[index].a);
+        index++;
+        setTimeout(function() {
+          $("#question-container").empty();
+          changeQuestion();
+        }, 2500);
+      }      
+    }
+  }, 1000);
 }
 
 //on click of start button "start screen" gone & first question + timer displays instead
@@ -92,41 +89,38 @@ $("#start-button").on("click", function() {
     $("#time-left").show();
     changeQuestion();
 })
-//on click of answer, stores user input, calls changeQuestion function
- $("#answers").on("click", ".possible-answer", function() {
-    console.log(index); 
-    var userPick = $(this).attr("data-name");
-        console.log(userPick);
-        if (userPick === allQuestions[index].a) {
-           correct++;
-           index++;
-           $("#question").empty();
-           $("#answers").empty();
-           $("#question-container").text("Out of this world!");
-        }
-
-        else {
-            $("#question-container").text("INCORRECT! The correct answer was: " + allQuestions[index].a);
-            incorrect++;
-            index++;
-        }
-
-        if (index  > allQuestions.length - 1) {
-            clearInterval(timer);
-            endGame();
-        }  
-        
-        else {
-            clearInterval(timer);
-            $("#question").empty();
-            $("#answers").empty();
-            //$("#question-container").text("Time's Up! The correct answer was " + allQuestions[index].a);
-            
-            setTimeout(function() {
-                $("#question-container").empty();
-                changeQuestion();
-   
-            }, 3000);
-        
-        }   
+//on click of answer, stores user pick, checks if user was right or wrong, calls changeQuestion function
+$("#answers").on("click", ".possible-answer", function() { 
+  console.log(index);
+  var userPick = $(this).attr("data-name");
+  console.log(userPick);
+  //condition checks if user got the correct answer displays "out of this world", counts correct++, advances question index
+  if (userPick === allQuestions[index].a) {
+    correct++;
+    index++;
+    $("#question").empty();
+    $("#answers").empty();
+    $("#question-container").text("CORRECT! Out of this world!");
+  }
+  //if incorrect displays message, counts incorrect++, advances question index
+  else {
+    $("#question-container").text("INCORRECT! The correct answer was: " + allQuestions[index].a);
+    incorrect++;
+    index++;
+  }
+  //after click checks if user is on last question then advances game to endgame
+  if (index  > allQuestions.length - 1) {
+    clearInterval(timer);
+    endGame();
+  }  
+  //not last question we continue on      
+  else {
+    clearInterval(timer);
+    $("#question").empty();
+    $("#answers").empty();
+    setTimeout(function() {
+      $("#question-container").empty();
+      changeQuestion();
+    }, 2500);   
+  }   
 })

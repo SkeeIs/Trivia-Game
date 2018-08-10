@@ -2,7 +2,7 @@ var allQuestions = [
     {
         q:"Which statement best describes galaxies?", 
         a:"They may contain billions of stars in a space much larger than our solar system", 
-        p:["They are similar in size to a solar system", "They may contain billions of stars in a space much larger than our solar system", "They contain only one star but hundreds of planets.", "They may contain a few hundred stars in a space slightly larger than the solar system."]
+        p:["They are similar in size to a solar system", "They may contain billions of stars in a space much larger than our solar system", "They contain only one star but hundreds of planets", "They may contain a few hundred stars in a space slightly larger than the solar system"]
     },
 
     {
@@ -55,5 +55,5 @@ var allQuestions = [
         a:"further away from us", 
         p:["closer to us","accelerating rapidly","already contracting toward another big bang","further away from us"]
     }
-  ]
+   ]
 

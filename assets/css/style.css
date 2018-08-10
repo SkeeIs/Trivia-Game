@@ -1,0 +1,41 @@
+body {
+    background-image: url(../images/147929main_SpeedyFlaresLG.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-size: 25px;
+    font-weight: bold;
+    color: lightgrey;
+}
+
+#header {
+    margin: 20px;
+}
+
+h1 {
+    font-size: 60px;
+}
+
+#start-button {
+    padding: 20px;
+}
+
+#time-left {
+    text-shadow: 2px 2px darkslateblue;
+}
+
+#question {
+    text-shadow: 2px 2px darkslateblue;
+}
+.possible-answer {
+    margin: 10px;
+    text-align: center;
+    text-shadow: 2px 2px darkslateblue;
+}
+
+#question-container {
+    text-shadow: 2px 2px darkslateblue;
+}
+
+#results {
+    text-shadow: 2px 2px darkslateblue;
+}
